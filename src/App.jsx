@@ -3,6 +3,7 @@
 // import viteLogo from '/vite.svg'
 import './App.css'
 import Posts from './components/Posts'
+import Form from './components/Form.jsx';
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -16,7 +17,8 @@ function App() {
         <p className="mt-2 text-lg/8 text-gray-600">Блог для тех, кто верит, что путешествия делают жизнь ярче и готов
           поделиться своими впечатлениями со всем миром.</p>
       </div>
-      <Posts/>
+      <Form />
+      <Posts />
     </>
   )
 }

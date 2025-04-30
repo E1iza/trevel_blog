@@ -17,7 +17,6 @@ const initialState = {
       category: { title: 'Прага, Чехия', href: '#' },
       author: {
         name: 'WanderLustle',
-        role: 'Путешественник 1 уровня',
         href: '#',
         imageUrl:
           'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -36,7 +35,6 @@ const initialState = {
       category: { title: 'Бали, Индонезия', href: '#' },
       author: {
         name: 'InForest',
-        role: 'Путешественник 3 уровня',
         href: '#',
         imageUrl:
           'https://images.unsplash.com/photo-1581456495146-65a71b2c8e52?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -55,7 +53,6 @@ const initialState = {
       category: { title: 'Исландия', href: '#' },
       author: {
         name: 'MonsoonMuse',
-        role: '"Экспедитор 2 уровня',
         href: '#',
         imageUrl:
           'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
