@@ -7,56 +7,44 @@ const initialState = {
     post1: {
       id: 1,
       title: 'Прага: город, где время течёт медленнее',
-      href: '#post1',
       description:
         'Прага — это не просто столица Чехии, а место, где каждая улочка дышит историей. Здесь можно потеряться в лабиринте мостовых, найти самый вкусный трдельник и услышать, как бьются куранты на Староместской площади.',
-      imageUrl:
-        'https://images.unsplash.com/photo-1714584538307-950fd0cf3597?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      image:
+        'http://localhost:5173/src/assets/images/photos/post1.jpg',
       date: 'Mar 16, 2020',
       datetime: '2020-03-16',
-      category: { title: 'Прага, Чехия', href: '#' },
-      author: {
-        name: 'WanderLustle',
-        href: '#',
-        imageUrl:
-          'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      },
+      country: 'Прага, Чехия',
+      nickname: 'WanderLustle',
+      userPhoto:
+        'http://localhost:5173/src/assets/images/users/author1.jpg',
     },
     post2: {
       id: 2,
       title: 'Бали: рай не только для инстаграма',
-      href: '#',
       description:
         'Бали — это не только белоснежные пляжи и лазурное море. Это остров, где можно найти уединение в джунглях, научиться серфингу и познакомиться с местной культурой.',
-      imageUrl:
-        'https://images.unsplash.com/photo-1591687814551-c41d42ec2ac6?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      image:
+        'http://localhost:5173/src/assets/images/photos/post2.jpg',
       date: 'Jun 10, 2022',
       datetime: '2022-06-10',
-      category: { title: 'Бали, Индонезия', href: '#' },
-      author: {
-        name: 'InForest',
-        href: '#',
-        imageUrl:
-          'https://images.unsplash.com/photo-1581456495146-65a71b2c8e52?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      },
+      country: 'Бали, Индонезия',
+      nickname: 'InForest',
+      userPhoto:
+        'http://localhost:5173/src/assets/images/users/author2.jpg',
     },
     post3: {
       id: 3,
       title: 'Исландия: страна, где природа — главный художник',
-      href: '#',
       description:
         'Исландия — это место, где земля дышит: гейзеры, водопады, чёрные пляжи и северное сияние. Это не страна, а волшебная сказка.',
-      imageUrl:
-        'https://images.unsplash.com/photo-1504985724362-dab7273d3caf?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      image:
+        'http://localhost:5173/src/assets/images/photos/post3.jpg',
       date: 'Aug 24, 2022',
       datetime: '2022-08-24',
-      category: { title: 'Исландия', href: '#' },
-      author: {
-        name: 'MonsoonMuse',
-        href: '#',
-        imageUrl:
-          'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      },
+      country: 'Исландия',
+      nickname: 'MonsoonMuse',
+      userPhoto:
+        'http://localhost:5173/src/assets/images/users/author3.jpg',
     },
   }
 };

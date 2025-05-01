@@ -1,24 +1,38 @@
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isOpenForm: false,
-  formData: null,
+  isSubmitted: false,
+  formData: {
+    title: '',
+    description: '',
+    image: '',
+    date: '',
+    datetime: '',
+    country: '',
+    nickname: '',
+    userPhoto: '',
+  },
 }
 
 const formSlice = createSlice({
   name: 'form',
   initialState,
   reducers: {
-    openForm: (state, action) => {
+    openForm: (state) => {
       state.isOpenForm = true;
-      state.formData = action.payload;
     },
-    closeForm: (state, action) => {
+    closeForm: (state) => {
       state.isOpenForm = false;
-      state.formData = null;
-    }
+    },
+    resetForm: () => initialState,
   }
 });
 
-export const { openForm, closeForm } = formSlice.actions;
+export const {
+  openForm,
+  closeForm,
+  resetForm
+} = formSlice.actions;
+
 export default formSlice.reducer;
