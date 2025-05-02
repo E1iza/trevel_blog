@@ -25,7 +25,7 @@ export default function Posts() {
                 />
                 <div className="absolute inset-0 rounded-2xl ring-1 ring-gray-900/10 ring-inset" />
               </div>
-              <div className="max-w-xl">
+              <div className="max-w-xl w-full">
                 <div className="mt-8 flex items-center justify-between text-xs">
                   <div className="flex gap-x-4">
                     <time dateTime={post.datetime} className="text-gray-500">
@@ -69,7 +69,7 @@ export default function Posts() {
                     <p className="font-semibold text-gray-900">
                       <a href="#">
                         <span className="absolute inset-0" />
-                        {post.nickname}
+                        {post.username}
                       </a>
                     </p>
                   </div>

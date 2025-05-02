@@ -1,6 +1,4 @@
 import { createSlice} from '@reduxjs/toolkit';
-import {useSelector} from "react-redux";
-import { selectors } from './postsSlice.js';
 
 const formData = {
   title: '',
@@ -9,13 +7,13 @@ const formData = {
   date: '',
   datetime: '',
   country: '',
-  nickname: '',
+  username: '',
   userPhoto: '',
 };
 
 const initialState = {
   isOpenForm: false,
-  postId: null,
+  errors: {},
   formData,
 }
 
@@ -30,8 +28,8 @@ const formSlice = createSlice({
       }
     },
     closeForm: () => initialState,
-    updateForm: (state, action) => {
-      state.formData = action.payload;
+    updateForm: (state, { payload }) => {
+      state.formData = payload;
     },
   }
 });

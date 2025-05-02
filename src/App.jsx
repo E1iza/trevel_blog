@@ -1,13 +1,8 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
 import './App.css'
 import Posts from './components/Posts'
 import AddPost from "./components/AddPost.jsx";
 
 function App() {
-  // const [count, setCount] = useState(0)
-
   return (
     <>
       <div className="mx-auto max-w-2xl text-center mt-10">

@@ -14,7 +14,7 @@ const posts = {
       date: 'Mar 16, 2020',
       datetime: '2020-03-16',
       country: 'Прага, Чехия',
-      nickname: 'WanderLustle',
+      username: 'WanderLustle',
       userPhoto:
         { type: 'img', url: 'http://localhost:5173/src/assets/images/users/author1.jpg' },
     },
@@ -28,7 +28,7 @@ const posts = {
       date: 'Jun 10, 2022',
       datetime: '2022-06-10',
       country: 'Бали, Индонезия',
-      nickname: 'InForest',
+      username: 'InForest',
       userPhoto:
         { type: 'img', url: 'http://localhost:5173/src/assets/images/users/author2.jpg' },
     },
@@ -42,7 +42,7 @@ const posts = {
       date: 'Aug 24, 2022',
       datetime: '2022-08-24',
       country: 'Исландия',
-      nickname: 'MonsoonMuse',
+      username: 'MonsoonMuse',
       userPhoto:
         { type: 'img', url: 'http://localhost:5173/src/assets/images/users/author3.jpg' },
     },

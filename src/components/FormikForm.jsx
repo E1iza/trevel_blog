@@ -1,11 +1,31 @@
 import _ from 'lodash';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
 import {useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import { updateForm, closeForm } from "../slices/formSlice.js";
+import { updateForm, closeForm} from "../slices/formSlice.js";
 import { actions } from "../slices/postsSlice.js";
 
-export default function Form() {
+const getFormatDate = () => {
+  const today = new Date();
+  const date =  today.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+  });
+  const datetime = today.toLocaleString();
+  return [date, datetime];
+};
+
+const validationSchema = Yup.object().shape({
+  username: Yup.string().required('Обязательное поле').min(3, 'Не меньше 3 символов'),
+  title: Yup.string().required('Обязательное поле').min(5, 'Не меньше 5 символов'),
+  country: Yup.string().required('Обязательное поле').min(3, 'Не меньше 3 символов'),
+  description: Yup.string().required('Обязательное поле').min(10, 'Не меньше 10 символов').max(300, 'Не больше 300 символов'),
+});
+
+export default function FormikForm() {
   const dispatch = useDispatch();
   const { formData } = useSelector(state => state.form);
 
@@ -39,23 +59,10 @@ export default function Form() {
     dispatch(updateForm({ ...formData, [name]: '' }));
   }
 
-  function formatDate(date) {
-    const formattedDate = date.toISOString().slice(0, 10);
-    const formattedDatetime = date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    });
-    return [ formattedDate, formattedDatetime ];
-  }
-
-  const submitForm = (e) => {
-    e.preventDefault();
-    const today = new Date();
-    const [ datetime, date ] = formatDate(today);
+  const handleSubmit = () => {
+    const [date, datetime] = getFormatDate();
 
     if (formData.id) {
-      console.log(formData.id);
       dispatch(actions.updatePost({
         id: formData.id,
         changes: {
@@ -76,38 +83,42 @@ export default function Form() {
   }
 
   return (
-    <form>
-    <div className="space-y-12">
-      <div className="border-b border-gray-900/10 pb-12">
-        <h2 className="text-base/7 font-semibold text-gray-900">
-          {(formData.id && <span>Редактирование поста</span>) || <span>Добавление поста</span>}
-        </h2>
-        <p className="mt-1 text-sm/6 text-gray-600">
-          {(formData.id && <span>Измените данные и нажмите "Сохранить" для обновления поста.</span>) ||
-            <span>Заполните данные и нажмите "Сохранить" для добавления нового поста.</span>
-          }
-        </p>
+    <Formik
+      initialValues={formData}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+      onChange={handleChange}
+      validateOnChange={false}
+      validateOnBlur={true}
+      enableReinitialize
+    >
+      <Form>
+        <div className="space-y-12">
+            <div className="border-b border-gray-900/10 pb-12">
+              <h2 className="text-base/7 font-semibold text-gray-900">
+                {(formData.id && <span>Редактирование поста</span>) || <span>Добавление поста</span>}
+              </h2>
+              <p className="mt-1 text-sm/6 text-gray-600">
+                {(formData.id && <span>Измените данные и нажмите "Сохранить" для обновления поста.</span>) ||
+                  <span>Заполните данные и нажмите "Сохранить" для добавления нового поста.</span>
+                }
+              </p>
 
-        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <div className="sm:col-span-4">
-            <label htmlFor="nickname" className="block text-sm/6 font-medium text-gray-900">
-              Ваше имя
-            </label>
-            <div className="mt-2">
-              <div
-                className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
-                <div className="shrink-0 text-base text-gray-500 select-none sm:text-sm/6"></div>
-                <input
-                  onChange={handleChange}
-                  value={formData.nickname}
-                  id="nickname"
-                  name="nickname"
-                  type="text"
-                  className="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
-                />
-              </div>
-            </div>
-          </div>
+              <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div className="sm:col-span-4">
+                  <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">
+                    Ваше имя
+                  </label>
+                  <div className="mt-2">
+                    <Field
+                      onChange={handleChange}
+                      type="text"
+                      name="username"
+                      className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                    />
+                    <ErrorMessage name="username" component="div" className="text-sm text-red-900 mr-2" />
+                  </div>
+                </div>
 
           <div className="col-span-full">
             <label htmlFor="userPhoto" className="block text-sm/6 font-medium text-gray-900">
@@ -140,10 +151,10 @@ export default function Form() {
             </div>
             <input
               type="file"
-                name="userPhoto"
-                ref={fileInputRef}
-                onChange={handleImageChange}
-                className="hidden"
+              name="userPhoto"
+              ref={fileInputRef}
+              onChange={handleImageChange}
+              className="hidden"
               />
             </div>
           </div>
@@ -153,19 +164,15 @@ export default function Form() {
               Название поста
             </label>
             <div className="mt-2">
-              <div
-                className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
-                <div className="shrink-0 text-base text-gray-500 select-none sm:text-sm/6"></div>
-                <input
-                  onChange={handleChange}
-                  value={formData.title}
-                  id="title"
-                  name="title"
-                  type="text"
-                  placeholder=""
-                  className="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
-                />
-              </div>
+              <Field
+                onChange={handleChange}
+                id="title"
+                name="title"
+                type="text"
+                placeholder=""
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              />
+              <ErrorMessage name="title" component="div" className="text-sm text-red-900 mr-2" />
             </div>
           </div>
 
@@ -174,14 +181,15 @@ export default function Form() {
               Описание
             </label>
             <div className="mt-2">
-                <textarea
+                <Field
+                  as="textarea"
                   onChange={handleChange}
-                  value={formData.description}
                   id="description"
                   name="description"
                   rows={3}
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />
+              <ErrorMessage name="description" component="div" className="text-sm text-red-900 mr-2" />
             </div>
             <p className="mt-3 text-sm/6 text-gray-600">Поделитесь своими впечатлениями от путешествия.</p>
           </div>
@@ -191,14 +199,14 @@ export default function Form() {
               Место вашего путешествия
             </label>
             <div className="mt-2">
-              <input
+              <Field
                 onChange={handleChange}
-                value={formData.country}
                 id="country"
                 name="country"
                 type="text"
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
+              <ErrorMessage name="country" component="div" className="text-sm text-red-900 mr-2" />
             </div>
           </div>
 
@@ -243,22 +251,21 @@ export default function Form() {
               )}
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-
-      <div className="mt-6 flex items-center justify-end gap-x-6">
-        <button onClick={() => dispatch(closeForm())} type="button" className="text-sm/6 font-semibold text-gray-900">
-          Назад
-        </button>
-        <button
-          onClick={(e) => submitForm(e)}
-          type="submit"
-          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Сохранить
-        </button>
-      </div>
-    </form>
-  );
+              </div>
+            </div>
+          </div>
+          <div className="mt-6 flex items-center justify-end gap-x-6">
+            <button onClick={() => dispatch(closeForm())} type="button" className="text-sm/6 font-semibold text-gray-900">
+              Назад
+            </button>
+            <button
+              type="submit"
+              className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Сохранить
+            </button>
+          </div>
+      </Form>
+    </Formik>
+  )
 }
