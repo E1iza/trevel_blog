@@ -61,8 +61,8 @@ export default function FormikForm() {
 
   const deleteImage = (name) => {
     const defaultImages = {
-      image: { type: 'default', url: 'http://localhost:5173/src/assets/images/photos/img_default.png' },
-      userPhoto: { type: 'default', url: 'http://localhost:5173/src/assets/images/users/author_default.jpg' }
+      image: { type: 'default', url: new URL('../assets/images/photos/img_default.png', import.meta.url).href },
+      userPhoto: { type: 'default', url: new URL('../assets/images/users/author_default.jpg', import.meta.url).href }
     }
 
     dispatch(updateForm({ ...formData, [name]: defaultImages[name] }));
