@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { UserCircleIcon } from '@heroicons/react/24/solid';
 import {useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import { updateForm, closeForm} from "../slices/formSlice.js";
@@ -147,20 +146,20 @@ export default function FormikForm() {
                   </>
                   ) ||
                   <>
-                    <UserCircleIcon aria-hidden="true" className="size-12 text-gray-300"/>
+                    <img src={formData.userPhoto.url} alt="Preview" className="size-12 object-cover rounded-full mr-2"/>
                     <button
                       onClick={() => fileInputRef.current.click()}
                       type="button"
                       className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
                     >
-                        Загрузить
-                      </button>
+                      Загрузить
+                    </button>
                   </>
                 }
-            </div>
-            <input
-              type="file"
-              name="userPhoto"
+              </div>
+              <input
+                type="file"
+                name="userPhoto"
               ref={fileInputRef}
               onChange={handleImageChange}
               className="hidden"
