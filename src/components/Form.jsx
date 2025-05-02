@@ -54,7 +54,24 @@ export default function Form() {
     const today = new Date();
     const [ datetime, date ] = formatDate(today);
 
-    dispatch(actions.addPost({ id: _.uniqueId("p_"), ...formData, date, datetime }));
+    if (formData.id) {
+      console.log(formData.id);
+      dispatch(actions.updatePost({
+        id: formData.id,
+        changes: {
+          ...formData,
+          date,
+          datetime,
+        },
+      }))
+    } else {
+      dispatch(actions.addPost({
+        id: _.uniqueId("p_"),
+        ...formData,
+        date,
+        datetime,
+      }));
+    }
     dispatch(closeForm());
   }
 
@@ -62,9 +79,13 @@ export default function Form() {
     <form>
     <div className="space-y-12">
       <div className="border-b border-gray-900/10 pb-12">
-        <h2 className="text-base/7 font-semibold text-gray-900">Добавление поста</h2>
+        <h2 className="text-base/7 font-semibold text-gray-900">
+          {(formData.id && <span>Редактирование поста</span>) || <span>Добавление поста</span>}
+        </h2>
         <p className="mt-1 text-sm/6 text-gray-600">
-          Заполните данные и нажмите "Сохранить" для добавления нового поста.
+          {(formData.id && <span>Измените данные и нажмите "Сохранить" для обновления поста.</span>) ||
+            <span>Заполните данные и нажмите "Сохранить" для добавления нового поста.</span>
+          }
         </p>
 
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">

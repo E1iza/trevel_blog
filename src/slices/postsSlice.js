@@ -1,11 +1,11 @@
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 
 const postsAdapter = createEntityAdapter();
-const initialState = {
-  ids: ['post1', 'post2', 'post3'],
+const posts = {
+  ids: ['dfp_1', 'dfp_2', 'dfp_3'],
   entities: {
-    post1: {
-      id: 1,
+    dfp_1: {
+      id: 'dfp_1',
       title: 'Прага: город, где время течёт медленнее',
       description:
         'Прага — это не просто столица Чехии, а место, где каждая улочка дышит историей. Здесь можно потеряться в лабиринте мостовых, найти самый вкусный трдельник и услышать, как бьются куранты на Староместской площади.',
@@ -18,8 +18,8 @@ const initialState = {
       userPhoto:
         { type: 'img', url: 'http://localhost:5173/src/assets/images/users/author1.jpg' },
     },
-    post2: {
-      id: 2,
+    dfp_2: {
+      id: 'dfp_2',
       title: 'Бали: рай не только для инстаграма',
       description:
         'Бали — это не только белоснежные пляжи и лазурное море. Это остров, где можно найти уединение в джунглях, научиться серфингу и познакомиться с местной культурой.',
@@ -32,8 +32,8 @@ const initialState = {
       userPhoto:
         { type: 'img', url: 'http://localhost:5173/src/assets/images/users/author2.jpg' },
     },
-    post3: {
-      id: 3,
+    dfp_3: {
+      id: 'dfp_3',
       title: 'Исландия: природа — главный художник',
       description:
         'Исландия — это место, где земля дышит: гейзеры, водопады, чёрные пляжи и северное сияние. Это не страна, а волшебная сказка.',
@@ -48,17 +48,13 @@ const initialState = {
     },
   }
 };
+const initialState = postsAdapter.getInitialState(posts);
 
 const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    addPost(state, action) {
-      postsAdapter.addOne(state, action.payload);
-      state.ids.sort((a, b) => {
-        return new Date(state.entities[b].datetime) - new Date(state.entities[a].datetime);
-      });
-    },
+    addPost: postsAdapter.addOne,
     updatePost: postsAdapter.updateOne,
     removePost: postsAdapter.removeOne,
   }

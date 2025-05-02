@@ -1,4 +1,4 @@
-import {openForm, updateForm} from "../slices/formSlice.js";
+import {openForm} from "../slices/formSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import Form from "./Form";
 import Button from "./Button";
@@ -12,7 +12,7 @@ export default function AddPost() {
   };
 
   return (
-    <div className="border-b border-gray-200 py-5 flex items-center justify-center">
+    <div className="border-b border-gray-200 py-5 mx-auto max-w-7xl px-6 lg:px-8 flex items-center justify-center">
       {isOpen ?
         <Form /> : <Button onButtonClick={handleButtonClick}>Добавить новый пост</Button>
       }
