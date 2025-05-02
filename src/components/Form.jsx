@@ -1,37 +1,19 @@
-import { UserCircleIcon } from '@heroicons/react/24/solid'
-import {useState, useRef, useEffect} from "react";
-import { useSelector, useDispatch } from "react-redux";
-import {closeForm, resetForm} from "../slices/formSlice.js";
-import ButtonAddPost from "./ButtonAddPost.jsx";
+import _ from 'lodash';
+import { UserCircleIcon } from '@heroicons/react/24/solid';
+import {useRef} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import { updateForm, closeForm } from "../slices/formSlice.js";
+import { actions } from "../slices/postsSlice.js";
 
 export default function Form() {
-  const stateForm = useSelector((state) => state.form);
-  const isSubmitted = useSelector(state => state.form.isSubmitted);
-
   const dispatch = useDispatch();
-
-  const [localFormData, setLocalFormData] = useState(stateForm.formData);
-
-  const initialPreview = { image: '', userPhoto: '' };
-  const [preview, setPreview] = useState(initialPreview);
+  const { formData } = useSelector(state => state.form);
 
   const fileInputRef = useRef(null);
 
-  useEffect(() => {
-    return () => {
-      if (!isSubmitted) {
-        dispatch(resetForm());
-      }
-    }
-  }, [dispatch, isSubmitted]);
-
-  useEffect(() => {
-    setLocalFormData(stateForm.formData);
-  }, [stateForm]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setLocalFormData({ ...localFormData, [name]: value });
+    dispatch(updateForm({ ...formData, [name]: value }));
   }
 
   const handleImageChange = (e) => {
@@ -42,15 +24,11 @@ export default function Form() {
 
       reader.onload = (event) => {
         const base64 = event.target.result;
-        setPreview({ ...preview, [e.target.name]: base64});
         const img = {
-          id: Date.now(),
-            base64,
-          name: file.name,
-          size: file.size,
-          type: file.type
+          type: 'base64',
+          url: base64,
         }
-        setLocalFormData({ ...localFormData, [e.target.name]: img});
+        dispatch(updateForm({ ...formData, [e.target.name]: img }));
       }
 
       reader.readAsDataURL(file);
@@ -58,22 +36,30 @@ export default function Form() {
   }
 
   const deleteImage = (name) => {
-    setPreview({...preview, [name]: ''});
-    setLocalFormData({ ...localFormData, [name]: '' });
+    dispatch(updateForm({ ...formData, [name]: '' }));
   }
 
-  const handleSubmit = (e) => {
+  function formatDate(date) {
+    const formattedDate = date.toISOString().slice(0, 10);
+    const formattedDatetime = date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+    return [ formattedDate, formattedDatetime ];
+  }
+
+  const submitForm = (e) => {
     e.preventDefault();
+    const today = new Date();
+    const [ datetime, date ] = formatDate(today);
 
-  }
-
-  const handleClose = () => {
+    dispatch(actions.addPost({ id: _.uniqueId("p_"), ...formData, date, datetime }));
     dispatch(closeForm());
-    setPreview(initialPreview);
   }
 
-  const form = (
-    <form className="mt-15">
+  return (
+    <form>
     <div className="space-y-12">
       <div className="border-b border-gray-900/10 pb-12">
         <h2 className="text-base/7 font-semibold text-gray-900">Добавление поста</h2>
@@ -92,11 +78,10 @@ export default function Form() {
                 <div className="shrink-0 text-base text-gray-500 select-none sm:text-sm/6"></div>
                 <input
                   onChange={handleChange}
-                  value={localFormData.nickname}
+                  value={formData.nickname}
                   id="nickname"
                   name="nickname"
                   type="text"
-                  placeholder="janesmith"
                   className="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
                 />
               </div>
@@ -109,9 +94,9 @@ export default function Form() {
             </label>
             <div className="mt-2 flex items-center gap-x-3">
               <div className="relative flex items-center rounded-full bg-white outline-none">
-                {(preview.userPhoto &&
+                {(formData.userPhoto &&
                   <>
-                    <img src={preview.userPhoto} alt="Preview" className="size-12 object-cover rounded-full"/>
+                    <img src={formData.userPhoto.url} alt="Preview" className="size-12 object-cover rounded-full"/>
                     <div onClick={() => deleteImage('userPhoto')} className="cursor-pointer">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                            stroke="currentColor" className="size-6">
@@ -152,7 +137,7 @@ export default function Form() {
                 <div className="shrink-0 text-base text-gray-500 select-none sm:text-sm/6"></div>
                 <input
                   onChange={handleChange}
-                  value={localFormData.title}
+                  value={formData.title}
                   id="title"
                   name="title"
                   type="text"
@@ -170,7 +155,7 @@ export default function Form() {
             <div className="mt-2">
                 <textarea
                   onChange={handleChange}
-                  value={localFormData.description}
+                  value={formData.description}
                   id="description"
                   name="description"
                   rows={3}
@@ -187,7 +172,7 @@ export default function Form() {
             <div className="mt-2">
               <input
                 onChange={handleChange}
-                value={localFormData.country}
+                value={formData.country}
                 id="country"
                 name="country"
                 type="text"
@@ -201,10 +186,10 @@ export default function Form() {
               Фото с вашего путешествия
             </label>
             <div className="relative mt-2 flex justify-center rounded-lg border border-gray-900/25 px-6 py-10">
-              {(preview.image && (
+              {(formData.image && (
                 <>
                   <img
-                    src={preview.image}
+                    src={formData.image.url}
                     alt="Preview"
                     className="size-64"
                   />
@@ -242,11 +227,11 @@ export default function Form() {
     </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        <button onClick={() => handleClose()} type="button" className="text-sm/6 font-semibold text-gray-900">
+        <button onClick={() => dispatch(closeForm())} type="button" className="text-sm/6 font-semibold text-gray-900">
           Назад
         </button>
         <button
-          onSubmit={handleSubmit}
+          onClick={(e) => submitForm(e)}
           type="submit"
           className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
@@ -255,11 +240,4 @@ export default function Form() {
       </div>
     </form>
   );
-
-  return (
-    <div className='mx-auto max-w-2xl mb-10'>
-      {!stateForm.isOpenForm ? <ButtonAddPost/> : null}
-      {stateForm.isOpenForm ? form : null}
-    </div>
-  )
 }

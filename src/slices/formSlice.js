@@ -1,18 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const formData = {
+  title: '',
+  description: '',
+  image: '',
+  date: '',
+  datetime: '',
+  country: '',
+  nickname: '',
+  userPhoto: '',
+};
+
 const initialState = {
   isOpenForm: false,
-  isSubmitted: false,
-  formData: {
-    title: '',
-    description: '',
-    image: '',
-    date: '',
-    datetime: '',
-    country: '',
-    nickname: '',
-    userPhoto: '',
-  },
+  formData,
 }
 
 const formSlice = createSlice({
@@ -22,17 +23,22 @@ const formSlice = createSlice({
     openForm: (state) => {
       state.isOpenForm = true;
     },
-    closeForm: (state) => {
-      state.isOpenForm = false;
+    closeForm: () => initialState,
+    updateForm: (state, action) => {
+      state.formData = action.payload;
     },
-    resetForm: () => initialState,
+    // submitForm: (state, action) => {
+    //   state.isSubmitted = true;
+    //   state.formData = action.payload;
+    // }
   }
 });
 
 export const {
   openForm,
   closeForm,
-  resetForm
+  updateForm,
+  submitForm,
 } = formSlice.actions;
 
 export default formSlice.reducer;
