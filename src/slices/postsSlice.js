@@ -11,7 +11,7 @@ const posts = {
         'Прага — это не просто столица Чехии, а место, где каждая улочка дышит историей. Здесь можно потеряться в лабиринте мостовых, найти самый вкусный трдельник и услышать, как бьются куранты на Староместской площади.',
       image:
         { type: 'img', url: 'http://localhost:5173/src/assets/images/photos/post1.jpg' },
-      date: 'Mar 16, 2020',
+      date: 'Mar 16, 2020, 2:30',
       datetime: '2020-03-16',
       country: 'Прага, Чехия',
       username: 'WanderLustle',
@@ -25,7 +25,7 @@ const posts = {
         'Бали — это не только белоснежные пляжи и лазурное море. Это остров, где можно найти уединение в джунглях, научиться серфингу и познакомиться с местной культурой.',
       image:
         { type: 'img', url: 'http://localhost:5173/src/assets/images/photos/post2.jpg' },
-      date: 'Jun 10, 2022',
+      date: 'Jun 10, 2022, 1:12',
       datetime: '2022-06-10',
       country: 'Бали, Индонезия',
       username: 'InForest',
@@ -39,7 +39,7 @@ const posts = {
         'Исландия — это место, где земля дышит: гейзеры, водопады, чёрные пляжи и северное сияние. Это не страна, а волшебная сказка.',
       image:
         { type: 'img', url: 'http://localhost:5173/src/assets/images/photos/post3.jpg' },
-      date: 'Aug 24, 2022',
+      date: 'Aug 24, 2022, 00:45',
       datetime: '2022-08-24',
       country: 'Исландия',
       username: 'MonsoonMuse',

@@ -9,10 +9,13 @@ import { actions } from "../slices/postsSlice.js";
 
 const getFormatDate = () => {
   const today = new Date();
-  const date =  today.toLocaleDateString('en-US', {
+  const date =  today.toLocaleString('en-US', {
     month: 'short',
     day: 'numeric',
-    year: 'numeric'
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
   });
   const datetime = today.toLocaleString();
   return [date, datetime];
@@ -48,6 +51,7 @@ export default function FormikForm() {
           type: 'base64',
           url: base64,
         }
+
         dispatch(updateForm({ ...formData, [e.target.name]: img }));
       }
 
@@ -56,7 +60,12 @@ export default function FormikForm() {
   }
 
   const deleteImage = (name) => {
-    dispatch(updateForm({ ...formData, [name]: '' }));
+    const defaultImages = {
+      image: { type: 'default', url: 'http://localhost:5173/src/assets/images/photos/img_default.png' },
+      userPhoto: { type: 'default', url: 'http://localhost:5173/src/assets/images/users/author_default.jpg' }
+    }
+
+    dispatch(updateForm({ ...formData, [name]: defaultImages[name] }));
   }
 
   const handleSubmit = () => {
@@ -126,7 +135,7 @@ export default function FormikForm() {
             </label>
             <div className="mt-2 flex items-center gap-x-3">
               <div className="relative flex items-center rounded-full bg-white outline-none">
-                {(formData.userPhoto &&
+                {(formData.userPhoto.type !== 'default' &&
                   <>
                     <img src={formData.userPhoto.url} alt="Preview" className="size-12 object-cover rounded-full"/>
                     <div onClick={() => deleteImage('userPhoto')} className="cursor-pointer">
@@ -215,7 +224,7 @@ export default function FormikForm() {
               Фото с вашего путешествия
             </label>
             <div className="relative mt-2 flex justify-center rounded-lg border border-gray-900/25 px-6 py-10">
-              {(formData.image && (
+              {(formData.image.type !== 'default' && (
                 <>
                   <img
                     src={formData.image.url}

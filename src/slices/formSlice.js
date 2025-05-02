@@ -3,12 +3,12 @@ import { createSlice} from '@reduxjs/toolkit';
 const formData = {
   title: '',
   description: '',
-  image: '',
+  image: { type: 'default', url: 'http://localhost:5173/src/assets/images/photos/img_default.png' },
   date: '',
   datetime: '',
   country: '',
   username: '',
-  userPhoto: '',
+  userPhoto: { type: 'default', url: 'http://localhost:5173/src/assets/images/users/author_default.jpg' },
 };
 
 const initialState = {
